@@ -3,6 +3,8 @@ from pygame.locals import *
 
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 800
+SPEED = 10
+GRAVITY = 1
 
 class Bird(pygame.sprite.Sprite):
     
@@ -12,6 +14,8 @@ class Bird(pygame.sprite.Sprite):
         self.images = [pygame.image.load('sprites/bluebird-upflap.png').convert_alpha(),
                         pygame.image.load('sprites/bluebird-midflap.png').convert_alpha(),
                         pygame.image.load('sprites/bluebird-downflap.png').convert_alpha()]
+
+        self.speed = SPEED
 
         self.current_image = 0
 
@@ -26,7 +30,15 @@ class Bird(pygame.sprite.Sprite):
     def update(self):
         self.current_image = (self.current_image + 1) % 3
         self.image = self.images[ self.current_image ]
-        
+
+        self.speed += GRAVITY
+
+        # update height
+        self.rect[1] += self.speed
+
+    def bump(self):
+        self.speed = -SPEED
+
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -45,6 +57,10 @@ while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
+
+        if event.type == KEYDOWN:
+            if event.key == K_SPACE:
+                bird.bump()
 
     screen.blit(BACKGROUND, (0, 0))
 
