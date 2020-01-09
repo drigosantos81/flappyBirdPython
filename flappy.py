@@ -154,9 +154,9 @@ while True:
     pipe_group.update()
 
     bird_group.draw(screen)
-    ground_group.draw(screen)
     pipe_group.draw(screen)
-
+    ground_group.draw(screen)
+ 
     pygame.display.update()
 
     if (pygame.sprite.groupcollide(bird_group, ground_group, False, False, pygame.sprite.collide_mask) or
